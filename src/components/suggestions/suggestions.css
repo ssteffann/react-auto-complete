@@ -1,0 +1,33 @@
+.suggestions {
+    width: 100%;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: white;
+    text-align: left;
+    font-size: 15px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding-top: 20px;
+}
+
+.suggestion-info {
+    color: #aca7a7;
+    text-align: center;
+    padding: 10px;
+}
+
+.suggestion-item {
+    cursor: pointer;
+    padding: 10px;
+    margin: 0 10px;
+    border-bottom: #dedede 1px solid;
+}
+
+
+.suggestion-item:hover {
+    background-color: #dedede;
+}
+
+.suggestion-highlight {
+    font-weight: bold;
+}
