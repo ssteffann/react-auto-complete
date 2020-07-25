@@ -3,16 +3,9 @@ import { getCitySuggestions } from './api/cities';
 
 import './App.css';
 import Autocomplete from './components/autocomplete/autocomplete';
-import { debounce } from './utils/helpers';
+import AutocompleteHooks from './components/autocomplete/autocomplete-hooks';
 
 class App extends Component {
-
-  constructor(props) {
-    super(props);
-
-
-  }
-
   getSuggestions = async (str) => {
     return getCitySuggestions(str)
   }
@@ -23,10 +16,12 @@ class App extends Component {
         <div className="app-body">
 
           <div className="width-40">
-            <Autocomplete onSearch={this.getSuggestions} />
+            <h1>Class Component</h1>
+            <Autocomplete onSearch={this.getSuggestions} placeholder="Search by City Name" />
           </div>
           <div className="width-40">
-            <Autocomplete />
+            <h1>Functional Component with Hooks</h1>
+            <AutocompleteHooks onSearch={this.getSuggestions} placeholder="Search by City Name" />
           </div>
         </div>
       </div>

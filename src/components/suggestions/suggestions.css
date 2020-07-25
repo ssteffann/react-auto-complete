@@ -23,6 +23,9 @@
     border-bottom: #dedede 1px solid;
 }
 
+.suggestion-active {
+    background-color: #5fa1d4;
+}
 
 .suggestion-item:hover {
     background-color: #dedede;

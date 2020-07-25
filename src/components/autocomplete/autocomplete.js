@@ -7,6 +7,7 @@ import { debounce } from '../../utils/helpers';
 class Autocomplete extends Component {
   constructor(props) {
     super(props);
+    this.autocomplete = React.createRef();
 
     this.state = {
       showSuggestions: false,
@@ -20,13 +21,22 @@ class Autocomplete extends Component {
     }, 400)
   }
 
-  toggleSuggestions = (show) => {
-    this.setState({ showSuggestions: show });
+  componentDidMount() {
+    window.addEventListener('mousedown', this.toggleSuggestions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('mousedown', this.toggleSuggestions);
+  }
+
+  toggleSuggestions = (event) => {
+    return this.setState({
+      showSuggestions: this.autocomplete.current.contains(event.target)
+    });
   }
 
   onSearch = (value) => {
-
-    this.setState({ text: value, isLoading: true });
+    this.setState({ text: value, isLoading: true, showSuggestions: true});
 
     this.getSuggestions(value);
   }
@@ -37,29 +47,32 @@ class Autocomplete extends Component {
     try {
       const response = await onSearch(value);
 
-      console.log('response ------>', response);
       this.setState({ suggestions: response });
-
     } finally {
       this.setState({ isLoading: false })
     }
   }
 
+  setValue = (value) => {
+    if(value) {
+      this.setState({ text: value });
+    }
+
+    this.setState({ showSuggestions: false });
+  }
 
   render() {
     const { text, showSuggestions, suggestions, isLoading } = this.state;
+    const { placeholder } = this.props;
 
     return (
-      <div className="autocomplete-container">
-
+      <div className="autocomplete-container" ref={this.autocomplete}>
         <input
           type="text"
           value={text}
-          onFocus={() => this.toggleSuggestions(true)}
-          onBlur={() => this.toggleSuggestions(false)}
           onChange={(event) => this.onSearch(event.target.value)}
           className={`autocomplete-input ${showSuggestions ? 'autocomplete-suggestion' : ''}`}
-          placeholder="input search text"
+          placeholder={placeholder || 'input search text'}
         />
 
         <div className="autocomplete-holder">
@@ -68,14 +81,10 @@ class Autocomplete extends Component {
             suggestions={suggestions}
             query={text}
             isLoading={isLoading}
-            onSelect={(value) => {
-              console.log('value ------>', value);
-            }}
+            onSelect={this.setValue}
           />
           }
         </div>
-
-
       </div>
     );
   }
@@ -83,6 +92,7 @@ class Autocomplete extends Component {
 
 Autocomplete.propTypes = {
   onSearch: PropTypes.func,
+  placeholder: PropTypes.string,
 };
 
 export default Autocomplete;
