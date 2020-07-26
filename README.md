@@ -4,6 +4,9 @@ Example includes Class Component sample and Functional Component with Hooks samp
 ## Available Scripts
 
 In the project directory, you can run:
+### `yarn install`
+
+Install all necessary dependencies for this project
 
 ### `yarn start`
 
