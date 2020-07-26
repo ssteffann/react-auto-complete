@@ -18,6 +18,10 @@ input[type=password] {
   box-sizing : border-box;
 }
 
+.mg-top {
+  margin-top: 40px;
+}
+
 .width-40 {
   width: 40%;
 }

@@ -68,7 +68,9 @@ class Suggestions extends Component {
   }
 
   handleScroll = (index) => {
-    if (!this.listRefs[index]) {
+    const { isLoading } = this.props;
+
+    if (!this.listRefs[index] || isLoading) {
       return;
     }
 

@@ -4,7 +4,7 @@ import './autocomplet.css'
 import SuggestionsHooks from '../suggestions/suggestions-hooks';
 import { debounce } from '../../utils/helpers';
 
-const AutocompleteHooks = ({ onSearch, placeholder }) => {
+const AutocompleteHooks = ({ onSearch, placeholder, onSelect }) => {
   const autocomplete = useRef(null);
   const [text, setText] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -33,7 +33,7 @@ const AutocompleteHooks = ({ onSearch, placeholder }) => {
     getSuggestions(value);
   };
 
-  const onSelect = (value) => {
+  const onSelectVal = (value) => {
     if (value) {
       setText(value);
     }
@@ -54,31 +54,39 @@ const AutocompleteHooks = ({ onSearch, placeholder }) => {
   }, []);
 
   return (
-    <div className="autocomplete-container" ref={autocomplete}>
-      <input
-        type="text"
-        value={text}
-        onChange={(event) => onChange(event.target.value)}
-        className={`autocomplete-input ${showSuggestions ? 'autocomplete-suggestion' : ''}`}
-        placeholder={placeholder || 'input search text'}
-      />
-
-      <div className="autocomplete-holder">
-        {showSuggestions && <SuggestionsHooks
-          valueKey="name"
-          suggestions={suggestions}
-          query={text}
-          isLoading={isLoading}
-          onSelect={onSelect}
+    <div className="autocomplete-wrapper">
+      <div className="autocomplete-container" ref={autocomplete}>
+        <input
+          type="text"
+          value={text}
+          onChange={(event) => onChange(event.target.value)}
+          className={`autocomplete-input ${showSuggestions ? 'autocomplete-suggestion' : ''}`}
+          placeholder={placeholder || 'input search text'}
         />
-        }
+
+        <div className="autocomplete-holder">
+          {showSuggestions && <SuggestionsHooks
+            valueKey="name"
+            suggestions={suggestions}
+            query={text}
+            isLoading={isLoading}
+            onSelect={onSelectVal}
+          />
+          }
+        </div>
       </div>
+      <button disabled={!text} onClick={() => {
+        onSelect(text);
+        setText('');
+      }} className="ok-btn">OK
+      </button>
     </div>
   );
 }
 
 AutocompleteHooks.propTypes = {
   onSearch: PropTypes.func,
+  onSelect: PropTypes.func,
   placeholder: PropTypes.string,
 };
 

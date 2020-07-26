@@ -61,37 +61,55 @@ class Autocomplete extends Component {
     this.setState({ showSuggestions: false });
   }
 
+  onSelect = () => {
+    const { onSelect } = this.props;
+    onSelect(this.state.text);
+
+    this.setState({ text: '' });
+  }
+
   render() {
     const { text, showSuggestions, suggestions, isLoading } = this.state;
-    const { placeholder } = this.props;
+    const { placeholder, onSelect } = this.props;
 
     return (
-      <div className="autocomplete-container" ref={this.autocomplete}>
-        <input
-          type="text"
-          value={text}
-          onChange={(event) => this.onSearch(event.target.value)}
-          className={`autocomplete-input ${showSuggestions ? 'autocomplete-suggestion' : ''}`}
-          placeholder={placeholder || 'input search text'}
-        />
+      <div className="autocomplete-wrapper">
+        <div className="autocomplete-container" ref={this.autocomplete}>
+          <input
+            type="text"
+            value={text}
+            onChange={(event) => {
+              const value = event.target.value;
 
-        <div className="autocomplete-holder">
-          {showSuggestions && <Suggestions
-            valueKey="name"
-            suggestions={suggestions}
-            query={text}
-            isLoading={isLoading}
-            onSelect={this.setValue}
+              this.onSearch(value);
+            }}
+            onKeyDown={this.onEnter}
+            className={`autocomplete-input ${showSuggestions ? 'autocomplete-suggestion' : ''}`}
+            placeholder={placeholder || 'input search text'}
           />
-          }
+
+          <div className="autocomplete-holder">
+            {showSuggestions && <Suggestions
+              valueKey="name"
+              suggestions={suggestions}
+              query={text}
+              isLoading={isLoading}
+              onSelect={this.setValue}
+            />
+            }
+          </div>
         </div>
+
+        <button disabled={!text} onClick={this.onSelect} className="ok-btn">OK</button>
       </div>
+
     );
   }
 }
 
 Autocomplete.propTypes = {
   onSearch: PropTypes.func,
+  onSelect: PropTypes.func,
   placeholder: PropTypes.string,
 };
 

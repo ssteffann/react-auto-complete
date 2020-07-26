@@ -12,7 +12,7 @@ const SuggestionsHooks = ({ suggestions = [], valueKey, query, onSelect, isLoadi
   }, [suggestions]);
 
   const handleScroll = (index) => {
-    if (!listRefs || !listRefs[index]) {
+    if (!listRefs || !listRefs[index] || isLoading) {
       return;
     }
 

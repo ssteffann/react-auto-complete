@@ -1,3 +1,20 @@
+.autocomplete-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.ok-btn {
+    margin-left: 10px;
+    border: none;
+    outline: none;
+    background: #5185ec;
+    color: white;
+    padding: 5px 15px;
+    height: 40px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
 .autocomplete-container {
     position: relative;
     width: 100%;
