@@ -1,6 +1,9 @@
 This project is an example of a React autocomplete component using pure react without any third party libraries. <br />
 Example includes Class Component sample and Functional Component with Hooks sample.
 
+## App is live here:
+https://react-autocomplete-app.herokuapp.com/
+
 ## Available Scripts
 
 In the project directory, you can run:
